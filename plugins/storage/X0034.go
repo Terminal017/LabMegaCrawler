@@ -1,4 +1,4 @@
-package production
+package dev
 
 import (
 	"megaCrawler/crawlers"
@@ -8,13 +8,13 @@ import (
 )
 
 func init() {
-	engine := crawlers.Register("1715", "菲华网", "https://www.phhua.com/")
+	engine := crawlers.Register("X0034", "Cordaid", "https://www.cordaid.org/")
 
-	engine.SetStartingURLs([]string{"https://www.phhua.com/news/"})
+	engine.SetStartingURLs([]string{"https://www.cordaid.org/en/news-stories/"})
 
 	extractorConfig := extractors.Config{
 		Author:       true,
-		Image:        true,
+		Image:        false,
 		Language:     true,
 		PublishDate:  true,
 		Tags:         true,
@@ -25,15 +25,15 @@ func init() {
 
 	extractorConfig.Apply(engine)
 
-	engine.OnHTML(".Scont-bd > li > a", func(element *colly.HTMLElement, ctx *crawlers.Context) {
+	engine.OnHTML(".teaser__title > a", func(element *colly.HTMLElement, ctx *crawlers.Context) {
 		ctx.Visit(element.Attr("href"), crawlers.News)
 	})
 
-	engine.OnHTML(".bk-article-body", func(element *colly.HTMLElement, ctx *crawlers.Context) {
+	engine.OnHTML(".entry-content > p, .entry-content > h2", func(element *colly.HTMLElement, ctx *crawlers.Context) {
 		ctx.Content += element.Text
 	})
 
-	engine.OnHTML(".Scont-bd > div > a:nth-last-child(2)", func(element *colly.HTMLElement, ctx *crawlers.Context) {
+	engine.OnHTML(".next", func(element *colly.HTMLElement, ctx *crawlers.Context) {
 		ctx.Visit(element.Attr("href"), crawlers.Index)
 	})
 }

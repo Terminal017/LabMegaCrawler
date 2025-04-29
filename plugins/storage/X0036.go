@@ -1,4 +1,4 @@
-package production
+package dev
 
 import (
 	"megaCrawler/crawlers"
@@ -9,9 +9,9 @@ import (
 )
 
 func init() {
-	engine := crawlers.Register("N-0007", "The Peninsula", "https://thepeninsulaqatar.com")
+	engine := crawlers.Register("X0036", "GroundUp", "https://groundup.org.za/")
 
-	engine.SetStartingURLs([]string{"https://thepeninsulaqatar.com/sitemap.xml"})
+	engine.SetStartingURLs([]string{"https://groundup.org.za/sitemap.xml"})
 
 	extractorConfig := extractors.Config{
 		Author:       true,
@@ -27,14 +27,14 @@ func init() {
 	extractorConfig.Apply(engine)
 
 	engine.OnXML("//loc", func(element *colly.XMLElement, ctx *crawlers.Context) {
-		if strings.Contains(element.Text, "/sitemap_articles") {
-			engine.Visit(element.Text, crawlers.Index)
-		} else if !strings.Contains(element.Text, ".xml") {
+		if strings.Contains(element.Text, "/article/") {
 			engine.Visit(element.Text, crawlers.News)
 		}
 	})
 
-	engine.OnHTML("div.con-text > p", func(element *colly.HTMLElement, ctx *crawlers.Context) {
-		ctx.Content += element.Text
+	engine.OnHTML("div[id=\"article_body\"]", func(element *colly.HTMLElement, ctx *crawlers.Context) {
+		element.DOM.Find("a").Remove()
+		directText := element.DOM.Text()
+		ctx.Content += directText
 	})
 }
