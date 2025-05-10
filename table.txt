@@ -1,11 +1,11 @@
-Testing targets [N-0042].
+Testing targets [N-0059].
 
-N-0042; timeout:
+N-0059; timeout:
 +--------+-------+--------+----------+
 | FIELD  | TOTAL | PASSED | COVERAGE |
 +--------+-------+--------+----------+
-| News   |    21 |     18 | 85.71%   |
-| Index  |   292 |    292 | 100.00%  |
+| News   |     0 |      0 | NaN%     |
+| Index  |     0 |      0 | NaN%     |
 | Expert |     0 |      0 | NaN%     |
 | Report |     0 |      0 | NaN%     |
 +--------+-------+--------+----------+

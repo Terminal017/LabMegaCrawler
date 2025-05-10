@@ -49,7 +49,7 @@ func FetchAndVisitArticles(engine *crawlers.WebsiteEngine, page int) {
 }
 
 func init() {
-	engine := crawlers.Register("N-0017", "Business Cambodia", "https://business-cambodia.com/")
+	engine := crawlers.Register("N-0052", "Business Cambodia", "https://business-cambodia.com/")
 
 	engine.SetStartingURLs([]string{"https://business-cambodia.com/categories/news"})
 
