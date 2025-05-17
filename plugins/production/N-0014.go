@@ -57,7 +57,7 @@ func init() {
 	})
 
 	engine.OnHTML(".detail-desc > p", func(element *colly.HTMLElement, ctx *crawlers.Context) {
-		cleanText := strings.ReplaceAll(element.Text, "\n", "") //清除换行符
+		cleanText := strings.ReplaceAll(element.Text, "\n", "") //清除
 		ctx.Content += cleanText
 	})
 }
