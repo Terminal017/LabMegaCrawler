@@ -9,13 +9,14 @@ import (
 )
 
 func init() {
-	engine := crawlers.Register("2782", "PCEC", "https://pcec.org.ph")
+	engine := crawlers.Register("GQT0068", "TM Tambayan", "www.tmtambayan.ph")
 
-	engine.SetStartingURLs([]string{"https://pcec.org.ph/sitemap.xml"})
+	engine.SetStartingURLs([]string{
+		"https://www.tmtambayan.ph/sitemap.xml"})
 
 	extractorConfig := extractors.Config{
-		Author:       false,
-		Image:        false,
+		Author:       true,
+		Image:        true,
 		Language:     true,
 		PublishDate:  true,
 		Tags:         true,
@@ -27,15 +28,14 @@ func init() {
 	extractorConfig.Apply(engine)
 
 	engine.OnXML("//loc", func(element *colly.XMLElement, ctx *crawlers.Context) {
-		if strings.Contains(element.Text, "sitemap-1") {
-			engine.Visit(element.Text, crawlers.Index)
-		} else if !strings.Contains(element.Text, ".xml") {
+		if strings.Contains(element.Text, "tmtambayan.ph") {
 			engine.Visit(element.Text, crawlers.News)
 		}
 	})
-
-	engine.OnHTML("div > p", func(element *colly.HTMLElement, ctx *crawlers.Context) {
+	engine.OnHTML("h1.heading", func(element *colly.HTMLElement, ctx *crawlers.Context) {
+		ctx.Title = element.Text
+	})
+	engine.OnHTML(".text-tm-components", func(element *colly.HTMLElement, ctx *crawlers.Context) {
 		ctx.Content += element.Text
 	})
-
 }
